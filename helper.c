@@ -21,14 +21,9 @@ void free_args(char **args, char **front)
 }
 
 /**
- * get_pid - Gets the current process ID.
- * Description: Opens the stat file, a space-delimited file containing
- *              information about the current process. The PID is the
- *              first word in the file. The function reads the PID into
  *              a buffer and replace the space at the end with a \0 byte.
- *
- * Return: The current process ID or NULL on failure.
  */
+
 char *get_pid(void)
 {
 	size_t i = 0;
@@ -58,24 +53,24 @@ char *get_pid(void)
 
 /**
  * get_env_value - Gets the value corresponding to an environmental variable.
-OAOAOA * @beginning: The environmental variable to search for.
-OAOAOA * @len: The length of the environmental variable to search for.
-OAOAOA *
+ * @beginning: The environmental variable to search for.
+ * @len: The length of the environmental variable to search for.
+ *
  * Return: If the variable is not found - an empty string.
  *         Otherwise - the value of the environmental variable.
  *
-OAOAOA * Description: Variables are stored in the format VARIABLE=VALUE.
+ * Description: Variables are stored in the format VARIABLE=VALUE.
  */
-OAOAOAchar *get_env_value(char *beginning, int len)
+char *get_env_value(char *beginning, int len)
 {
 	char **var_addr;
 	char *replacement = NULL, *temp, *var;
 
 	var = malloc(len + 1);
-OAOAOA	if (!var)
+	if (!var)
 		return (NULL);
 	var[0] = '\0';
-OAOAOA	_strncat(var, beginning, len);
+	_strncat(var, beginning, len);
 
 	var_addr = _getenv(var);
 	free(var);
@@ -93,10 +88,10 @@ char *get_pid(void)
 	return (replacement);
 }
 
-OAOAOA/**
+/**
  * variable_replacement - Handles variable replacement.
-OAOAOAOAOAOA * @line: A double pointer containing the command and arguments.
-OAOAOAOAOAOA * @exe_ret: A pointer to the return value of the last executed command.
+ * @line: A double pointer containing the command and arguments.
+ * @exe_ret: A pointer to the return value of the last executed command.
  *
  * Description: Replaces $$ with the current PID, $? with the return value
  *              of the last executed program, and envrionmental variables
@@ -125,16 +120,16 @@ void variable_replacement(char **line, int *exe_ret)
 			}
 			else if (old_line[j + 1])
 			{
-OAOAOA				/* extract the variable name to search for */
+				/* extract the variable name to search for */
 				for (k = j + 1; old_line[k] &&
-OAOAOA						old_line[k] != '$' &&
-OAOAOA						old_line[k] != ' '; k++)
+						old_line[k] != '$' &&
+						old_line[k] != ' '; k++)
 					;
-OAOAOA				len = k - (j + 1);
-OAOAOA				replacement = get_env_value(&old_line[j + 1], len);
+				len = k - (j + 1);
+				replacement = get_env_value(&old_line[j + 1], len);
 			}
 			new_line = malloc(j + _strlen(replacement)
-OAOAOA					  + _strlen(&old_line[k]) + 1);
+					  + _strlen(&old_line[k]) + 1);
 			if (!line)
 				return;
 			new_line[0] = '\0';
